@@ -111,7 +111,7 @@ Install the following tools:
 Clone the repository:
 
 ```bash
-git clone <repository-url>
+git clone <https://github.com/khalil-elqaddabi/strada.git>
 cd Strada
 ```
 
