@@ -7,6 +7,7 @@ const registerSchema = z.object({
   password:  z.string().min(8),
 });
 
+
 const validate = (schema) => (req, res, next) => {
   const result = schema.strict().safeParse(req.body);
   if (!result.success) {
