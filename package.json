@@ -1,6 +1,7 @@
 {
   "name": "strada",
   "version": "1.0.0",
+  "type": "commonjs",
   "description": "A RESTful API for managing bus routes, buses, departures, seat reservations, and passenger boarding.",
   "main": "index.js",
   "directories": {
@@ -26,6 +27,7 @@
     "bcrypt": "^6.0.0",
     "dotenv": "^18.0.9",
     "express": "^5.3.0",
+    "jsonwebtoken": "^9.0.3",
     "mongoose": "^9.11.4",
     "zod": "^4.6.7"
   },
