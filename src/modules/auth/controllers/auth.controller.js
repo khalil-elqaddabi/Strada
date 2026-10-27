@@ -5,6 +5,7 @@ async function register(req, res, next) {
     const user = await authService.register(req.body);
     res.status(201).json({ data: user });
   } catch (err) {
+    console.error("REGISTER ERROR:", err);
     next(err);
   }
 }
@@ -17,6 +18,7 @@ async function login(req, res, next) {
       data: result,
     });
   } catch (err) {
+    console.error("LOGIN ERROR:", err);
     next(err);
   }
 }

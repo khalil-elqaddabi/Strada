@@ -1,11 +1,11 @@
 const bcrypt = require("bcrypt");
 const User = require("../models/user.model");
 const jwt = require("jsonwebtoken");
-const { JWT_SECRET, JWT_EXPRES_IN } = require("../../../config/env");
+const { JWT_SECRET, JWT_EXPIRES_IN } = require("../../../config/env");
 
 const SALT_ROUNDS = 12;
 
-async function register({ firstname, lastname, email, password }) {
+async function register({ firstName, lastName, email, password }) {
   const exists = await User.findOne({ email });
   if (exists) {
     const err = new Error("Email already in use.");
@@ -16,16 +16,16 @@ async function register({ firstname, lastname, email, password }) {
 
   const hash = await bcrypt.hash(password, SALT_ROUNDS);
   const user = await User.create({
-    firstname,
-    lastname,
+    firstName,
+    lastName,
     email,
     password: hash,
   });
 
   return {
     id: user._id,
-    firstname: user.firstname,
-    lastname: user.lastname,
+    firstName: user.firstName,
+    lastName: user.lastName,
     email: user.email,
     role: user.role,
   };
@@ -65,8 +65,8 @@ async function login({ email, password }) {
   return {
     user: {
       id: user._id,
-      firstname: user.firstname,
-      lastname: user.lastname,
+      firstName: user.firstName,
+      lastName: user.lastName,
       email: user.email,
       role: user.role,
     },
