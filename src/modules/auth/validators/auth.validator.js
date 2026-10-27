@@ -2,11 +2,15 @@ const { z } = require("zod");
 
 const registerSchema = z.object({
   firstname: z.string().trim().min(1),
-  lastname:  z.string().trim().min(1),
-  email:     z.string().trim().email(),
-  password:  z.string().min(8),
+  lastname: z.string().trim().min(1),
+  email: z.string().trim().email(),
+  password: z.string().min(8),
 });
 
+const loginSchima = z.object({
+  email: z.string().trim().email().toLowerCase(),
+  password: z.string().min(1, "Password is required"),
+});
 
 const validate = (schema) => (req, res, next) => {
   const result = schema.strict().safeParse(req.body);
@@ -19,4 +23,4 @@ const validate = (schema) => (req, res, next) => {
   next();
 };
 
-module.exports = { registerSchema, validate };
+module.exports = { registerSchema, validate, loginSchima };
