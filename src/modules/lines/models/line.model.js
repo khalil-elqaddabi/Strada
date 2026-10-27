@@ -1,18 +1,40 @@
 
 const mongoose = require("mongoose");
 
-const stopSchema = new mongoose.Schema(
+const lineSchema = new mongoose.Schema(
   {
-    name: {
+    code: {
+      type: String,
+      required: true,
+      unique: true,
+      trim: true,
+    },
+
+    label: {
       type: String,
       required: true,
       trim: true,
     },
 
-    cityId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "City",
-      required: true,
+    stops: [
+      {
+        stopId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Stop",
+          required: true,
+        },
+
+        stopOrder: {
+          type: Number,
+          required: true,
+          min: 1,
+        },
+      },
+    ],
+
+    isArchived: {
+      type: Boolean,
+      default: false,
     },
   },
   {
@@ -20,4 +42,4 @@ const stopSchema = new mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model("Stop", stopSchema);
+module.exports = mongoose.model("Line", lineSchema);

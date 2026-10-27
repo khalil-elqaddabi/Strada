@@ -1,42 +1,18 @@
 
 const mongoose = require("mongoose");
 
-const bookingSchema = new mongoose.Schema(
+const stopSchema = new mongoose.Schema(
   {
-    bookingCode: {
+    name: {
       type: String,
       required: true,
-      unique: true,
       trim: true,
     },
 
-    userId: {
+    cityId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      ref: "City",
       required: true,
-    },
-
-    departureId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Departure",
-      required: true,
-    },
-
-    seatNumber: {
-      type: Number,
-      required: true,
-      min: 1,
-    },
-
-    status: {
-      type: String,
-      enum: ["PENDING", "CONFIRMED", "CANCELLED"],
-      default: "PENDING",
-    },
-
-    dateValidation: {
-      type: Date,
-      default: null,
     },
   },
   {
@@ -44,4 +20,4 @@ const bookingSchema = new mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model("Booking", bookingSchema);
+module.exports = mongoose.model("Stop", stopSchema);
