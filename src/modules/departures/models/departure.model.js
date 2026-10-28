@@ -1,73 +1,24 @@
-
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const departureSchema = new mongoose.Schema(
   {
-    lineId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Line",
-      required: true,
-    },
-
-    coachId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Coach",
-      required: true,
-    },
-
-    cityDepart: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "City",
-      required: true,
-    },
-
-    cityArrival: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "City",
-      required: true,
-    },
-
-    dateDepart: {
-      type: Date,
-      required: true,
-    },
-
-    departAt: {
-      type: Date,
-      required: true,
-    },
-
-    arriveAt: {
+    lineId:      { type: mongoose.Schema.Types.ObjectId, ref: "Line", required: true },
+    coachId:     { type: mongoose.Schema.Types.ObjectId, ref: "Coach", required: true },
+    departureAt: { type: Date, required: true },
+    arrivalAt:   {
       type: Date,
       required: true,
       validate: {
-        validator: function (value) {
-          return value > this.departAt;
-        },
-        message: "arriveAt must be after departAt",
+        validator: function (value) { return value > this.departureAt; },
+        message: "arrivalAt must be after departureAt",
       },
     },
-
-    status: {
-      type: String,
-      enum: [
-        "SCHEDULED",
-        "IN_PROGRESS",
-        "COMPLETED",
-        "CANCELLED",
-      ],
-      default: "SCHEDULED",
-    },
-
-    price: {
-      type: Number,
-      required: true,
-      min: 0,
-    },
+    fareCents:   { type: Number, required: true, min: 0 },
+    status:      { type: String, enum: ["OPEN", "BOARDING", "DEPARTED", "CANCELLED"], default: "OPEN" },
+    revision:    { type: Number, default: 0 },
+    snapshot:    { type: mongoose.Schema.Types.Mixed },
   },
-  {
-    timestamps: true,
-  }
+  { timestamps: true }
 );
 
-module.exports = mongoose.model("Departure", departureSchema);
+export default mongoose.model("Departure", departureSchema);
