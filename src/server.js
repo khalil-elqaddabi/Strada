@@ -1,22 +1,23 @@
 import app from './app.js';
-import {connectionDB} from './config/db.js';
+import Database from './config/db.js';
 import 'dotenv/config';
 
 
 
 const PORT = process.env.PORT || 300;
 
+const database = new Database();
 
 const startServer = async() => {
 
     try{
-        await connectionDB();
+        await database.connect();
 
         app.listen(PORT, () => {
             console.log(`server runing in the port ${PORT}`);
         })
     }catch(err){
-        console.log("Field to start server ", e.message);
+        console.log("Field to start server ", err.message);
         process.exit(1);
     }   
 }
