@@ -1,38 +1,12 @@
-
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const coachSchema = new mongoose.Schema(
   {
-    name: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-
-    model: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-
-    isArchived: {
-      type: Boolean,
-      default: false,
-    },
-
-    numberOfSeat: {
-      type: Number,
-      required: true,
-      min: 1,
-      validate: {
-        validator: Number.isInteger,
-        message: "numberOfSeat must be an integer",
-      },
-    },
+    registration: { type: String, required: true, unique: true, trim: true },
+    seatNumbers:  { type: [Number], required: true },
+    isArchived:   { type: Boolean, default: false },
   },
-  {
-    timestamps: true,
-  }
+  { timestamps: true }
 );
 
-module.exports = mongoose.model("Coach", coachSchema);
+export default mongoose.model("Coach", coachSchema);

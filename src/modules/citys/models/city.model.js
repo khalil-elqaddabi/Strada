@@ -1,17 +1,10 @@
-
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const citySchema = new mongoose.Schema(
   {
-    name: {
-      type: String,
-      required: true,
-      trim: true,
-    },
+    name: { type: String, required: true, trim: true },
   },
-  {
-    timestamps: true,
-  }
+  { timestamps: true }
 );
 
-module.exports = mongoose.model("City", citySchema);
+export default mongoose.model("City", citySchema);
