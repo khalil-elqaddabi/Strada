@@ -1,8 +1,30 @@
 import express from 'express';
+// import * as controller from '../controllers/departure.controller.js';
 
 const router = express.Router();
 
-router.get("/testDep", (req, res) => { return res.send({message: "test departure route"})});
+router.get("/", (req, res, next) => {
+    req.container.resolve('departureController').getAll(req, res, next)
+});
+
+router.get("/:id", (req, res, next) => {
+    req.container.resolve('departureController').getById(req, res, next)
+});
+
+
+router.post("/", (req, res, next) => {
+    req.container.resolve('departureController').create(req, res, next)
+});
+
+router.put("/:id", (req, res, next) => {
+    req.container.resolve('departureController').update(req, res, next)
+});
+
+router.delete("/:id", (req, res, next) => {
+    req.container.resolve('departureController').delete(req, res, next)
+});
+
+// router.post("/",  controller.create);
 
 export default router;
 
