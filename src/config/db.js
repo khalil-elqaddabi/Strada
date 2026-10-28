@@ -1,21 +1,36 @@
 import mongoose from 'mongoose';
 
-class  Database{
+class Database {
+        static instance;
 
-  constructor(){
-    this.uri = process.env.MONGODB_URI
-  }
-
-  async  connect(){
-    try{
-      await mongoose.connect(this.uri)
-      console.log('la connexion se fait avec succes');
-    }catch(err){
-      console.log("Erreur lorsque la connexion avec la base de donnee ", err.message);
-      throw err
-    }
-  }
-}
+        constructor() {
+          if (Database.instance) {
+            return Database.instance
+          }
+          this.uri = process.env.MONGODB_URI
+          this.connectionPromise = null;
+        
+          Database.instance = this;
+        }
+      
+        async connect() {
+        
+              if(mongoose.connection.readyState === 1){
+                return mongoose.connection; 
+              }
+            
+              if(!this.connectionPromise){
+                  this.connectionPromise = mongoose.connect(this.uri)
+                    .then(() => {
+                        console.log("Connexion au base de donnee reussie ")
+                        return mongoose.connection;
+                    }).catch((err) => {
+                        this.connectionPromise = null;
+                        throw err;
+                    })
+              }
+        }
+}     
 
 export default Database;
 
