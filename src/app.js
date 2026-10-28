@@ -1,7 +1,7 @@
 import express from 'express';
 import authRoutes from './modules/auth/routes/auth.routes.js';
 import errorHandler from './shared/middlewares/error.middleware.js';
-
+import coachRoutes from "./modules/coachs/routes/coach.routes.js";
 
 const app = express();
 
@@ -13,10 +13,12 @@ app.use("/api/auth", authRoutes);
 //exemple departure 
 // app.use("/api/departure", DepartureRoutes);
 
+
 app.get("/test", (req, res) => {
     return res.send({message: "testing routes "});
 })
 
+app.use("/api/coaches", coachRoutes);
 app.use(errorHandler);
 
 export default app;
