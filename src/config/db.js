@@ -1,3 +1,4 @@
+
 import mongoose from 'mongoose';
 
 class Database {
@@ -33,5 +34,4 @@ class Database {
 }     
 
 export default Database;
-
 

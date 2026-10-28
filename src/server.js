@@ -1,3 +1,4 @@
+
 import app from './app.js';
 import Database from './config/db.js';
 import 'dotenv/config';
@@ -23,3 +24,4 @@ const startServer = async() => {
 }
 
 startServer();
+
