@@ -8,12 +8,9 @@ export const createCoachSchema = z.object({
     .transform((value) => value.toUpperCase()),
 
   seatNumbers: z
-    .array(z.number().int().positive())
-    .min(1, "Provide at least one seat.")
-    .refine(
-      (seats) => new Set(seats).size === seats.length,
-      "Seat numbers must be unique."
-    ),
+  .number()
+  .int("Seat count must be an integer.")
+  .positive("Seat count must be greater than zero."),
 }).strict();
 
 export const updateCoachSchema = createCoachSchema
