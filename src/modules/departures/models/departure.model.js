@@ -1,5 +1,5 @@
 
-const mongoose = require("mongoose");
+import mongoose from 'mongoose';
 
 const departureSchema = new mongoose.Schema(
   {
@@ -70,4 +70,4 @@ const departureSchema = new mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model("Departure", departureSchema);
+export default mongoose.model("Departure", departureSchema);
