@@ -2,9 +2,7 @@ const bcrypt = require("bcrypt");
 const User = require("../models/user.model");
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET, JWT_EXPIRES_IN } = require("../../../config/env");
-
 const SALT_ROUNDS = 12;
-
 async function register({ firstName, lastName, email, password }) {
   const exists = await User.findOne({ email });
   if (exists) {
@@ -13,7 +11,6 @@ async function register({ firstName, lastName, email, password }) {
     err.status = 409;
     throw err;
   }
-
   const hash = await bcrypt.hash(password, SALT_ROUNDS);
   const user = await User.create({
     firstName,
@@ -21,7 +18,6 @@ async function register({ firstName, lastName, email, password }) {
     email,
     password: hash,
   });
-
   return {
     id: user._id,
     firstName: user.firstName,
@@ -30,7 +26,6 @@ async function register({ firstName, lastName, email, password }) {
     role: user.role,
   };
 }
-
 async function login({ email, password }) {
   const normalizedEmail = email.trim().toLowerCase();
   const user = await User.findOne({
@@ -50,7 +45,6 @@ async function login({ email, password }) {
     err.status = 500;
     throw err;
   }
-
   const token = jwt.sign(
     {
       sub: user._id.toString(),
@@ -61,7 +55,6 @@ async function login({ email, password }) {
       expiresIn: JWT_EXPIRES_IN,
     },
   );
-
   return {
     user: {
       id: user._id,
@@ -75,5 +68,4 @@ async function login({ email, password }) {
     expiresIn: JWT_EXPIRES_IN,
   };
 }
-
 module.exports = { register, login };
