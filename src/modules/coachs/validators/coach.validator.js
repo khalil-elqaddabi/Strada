@@ -1,13 +1,21 @@
 import { z } from "zod";
 
-// Rules for creating a coach.
 export const createCoachSchema = z.object({
-  name: z.string().trim().min(1),
-  model: z.string().trim().min(1),
-  numberOfSeat: z.number().int().positive(),
+  registration: z
+    .string()
+    .trim()
+    .min(1, "Registration is required.")
+    .transform((value) => value.toUpperCase()),
+
+  seatNumbers: z
+    .array(z.number().int().positive())
+    .min(1, "Provide at least one seat.")
+    .refine(
+      (seats) => new Set(seats).size === seats.length,
+      "Seat numbers must be unique."
+    ),
 }).strict();
 
-// Updating allows any of these fields to be omitted.
 export const updateCoachSchema = createCoachSchema
   .partial()
   .refine(
@@ -15,7 +23,6 @@ export const updateCoachSchema = createCoachSchema
     "Provide at least one field to update."
   );
 
-// Middleware: check the body before reaching the controller.
 export function validateCoach(schema) {
   return (req, res, next) => {
     const result = schema.safeParse(req.body);
