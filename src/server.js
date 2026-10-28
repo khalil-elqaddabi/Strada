@@ -2,9 +2,6 @@
 import app from './app.js';
 import Database from './config/db.js';
 import 'dotenv/config';
-
-
-
 const PORT = process.env.PORT || 300;
 
 const database = new Database();
