@@ -1,53 +1,56 @@
+
 import mongoose from "mongoose";
-import stopRepository from "../repositories/stop.repository";
 
-class StopService {
-  async create(data) {
-    return stopRepository.create(data);
+export default class StopService {
+  constructor({ stopRepository }) {
+    this.stopRepository = stopRepository;
   }
 
-  async findAll() {
-    return stopRepository.findAll();
+  async createStop(data) {
+    return this.stopRepository.create(data);
   }
 
-  async findById(id) {
+  async getAllStops() {
+    return this.stopRepository.findAll();
+  }
+
+  async getStopById(id) {
     this.validateId(id);
 
-    const stop = await StopRepository.findById(id);
+    const stop = await this.stopRepository.findById(id);
 
     if (!stop) {
-      const err = new Error("Stop not found");
-      err.code = "Re  SOURCE NOT FOUND";
-      err.status = 404;
-      throw err;
+      const error = new Error("Stop introuvable");
+      error.statusCode = 404;
+      throw error;
     }
+
     return stop;
   }
 
-  async update(id, data) {
+  async updateStop(id, data) {
     this.validateId(id);
 
-    const stop = await StopRepository.updateById(id, data);
+    const stop = await this.stopRepository.updateById(id, data);
 
     if (!stop) {
-      const err = new Error("Stop not found");
-      err.code = "Re  SOURCE NOT FOUND";
-      err.status = 404;
-      throw err;
+      const error = new Error("Stop introuvable");
+      error.statusCode = 404;
+      throw error;
     }
+
     return stop;
   }
 
-  async delete(id) {
+  async deleteStop(id) {
     this.validateId(id);
 
-    const stop = await StopRepository.deleteById(id);
+    const stop = await this.stopRepository.delete(id);
 
     if (!stop) {
-      const err = new Error("Stop not found.");
-      err.code = "RESOURCE_NOT_FOUND";
-      err.status = 404;
-      throw err;
+      const error = new Error("Stop introuvable");
+      error.statusCode = 404;
+      throw error;
     }
 
     return stop;
@@ -55,12 +58,9 @@ class StopService {
 
   validateId(id) {
     if (!mongoose.isObjectIdOrHexString(id)) {
-      const err = new Error("Invalid stop ID.");
-      err.code = "INVALID_ID";
-      err.status = 400;
-      throw err;
+      const error = new Error("ID de stop invalide");
+      error.statusCode = 400;
+      throw error;
     }
   }
 }
-
-export default new StopService();
