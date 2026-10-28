@@ -1,7 +1,7 @@
 {
   "name": "strada",
   "version": "1.0.0",
-  "type": "commonjs",
+  "type": "module",
   "description": "A RESTful API for managing bus routes, buses, departures, seat reservations, and passenger boarding.",
   "main": "index.js",
   "directories": {
