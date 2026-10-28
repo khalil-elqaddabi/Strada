@@ -1,13 +1,22 @@
-const express      = require("express");
-const authRoutes   = require("./modules/auth/routes/auth.routes");
-const errorHandler = require("./shared/middlewares/error.middleware");
+import express from 'express';
+import authRoutes from './modules/auth/routes/auth.routes.js';
+import errorHandler from './shared/middlewares/error.middleware.js';
+
 
 const app = express();
+
 
 app.use(express.json());
 
 app.use("/api/auth", authRoutes);
+// ici on va declaerer les routes pour chaque module 
+//exemple departure 
+// app.use("/api/departure", DepartureRoutes);
+
+app.get("/test", (req, res) => {
+    return res.send({message: "testing routes "});
+})
 
 app.use(errorHandler);
 
-module.exports = app;
+export default app;
