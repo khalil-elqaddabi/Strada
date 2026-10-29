@@ -10,7 +10,7 @@ class LineService {
   }
 
   async create({ code, label, stopIds }) {
-    const normalizedCode  = code.trim().toUpperCase();
+    const normalizedCode = code.trim().toUpperCase();
     const normalizedLabel = label.trim();
 
     const exists = await this.lineRepository.findByCode(normalizedCode);
@@ -18,7 +18,6 @@ class LineService {
       const err = new Error("Line code already in use.");
       err.code = "RESOURCE_CONFLICT"; err.status = 409; throw err;
     }
-
     const stops = await this.Stop.find({ _id: { $in: stopIds } });
     if (stops.length !== stopIds.length) {
       const foundIds = stops.map(s => s._id.toString());
