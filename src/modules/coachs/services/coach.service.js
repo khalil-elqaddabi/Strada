@@ -1,10 +1,9 @@
 import mongoose from "mongoose";
 
 export default class CoachService {
-  constructor(coachRepository) {
+  constructor({ coachRepository }) {
     this.coachRepository = coachRepository;
   }
-
 
   checkId(id) {
     if (!mongoose.isObjectIdOrHexString(id)) {
@@ -26,15 +25,15 @@ export default class CoachService {
     return coach;
   }
 
-  create(data) {
+  createCoach(data) {
     return this.coachRepository.create(data);
   }
 
-  findAll() {
+  getAllCoaches() {
     return this.coachRepository.findAll();
   }
 
-  async findById(id) {
+  async getCoachById(id) {
     this.checkId(id);
 
     const coach = await this.coachRepository.findById(id);
@@ -42,19 +41,22 @@ export default class CoachService {
     return this.checkFound(coach);
   }
 
-  async update(id, data) {
+  async updateCoach(id, data) {
     this.checkId(id);
 
-    const coach = await this.coachRepository.update(id, data);
+    const coach = await this.coachRepository.updateById(
+      id,
+      data
+    );
 
     return this.checkFound(coach);
   }
 
-  async archive(id) {
+  async deleteCoach(id) {
     this.checkId(id);
 
-    const coach = await this.coachRepository.archive(id);
+    const coach = await this.coachRepository.delete(id);
 
-    this.checkFound(coach);
+    return this.checkFound(coach);
   }
 }

@@ -1,8 +1,7 @@
 export default class CoachRepository {
-  constructor(coachModel) {
+  constructor({ coachModel }) {
     this.coachModel = coachModel;
   }
-
 
   create(data) {
     return this.coachModel.create(data);
@@ -12,7 +11,6 @@ export default class CoachRepository {
     return this.coachModel.find({ isArchived: false });
   }
 
-
   findById(id) {
     return this.coachModel.findOne({
       _id: id,
@@ -20,8 +18,7 @@ export default class CoachRepository {
     });
   }
 
-
-  update(id, data) {
+  updateById(id, data) {
     return this.coachModel.findOneAndUpdate(
       { _id: id, isArchived: false },
       { $set: data },
@@ -32,8 +29,8 @@ export default class CoachRepository {
     );
   }
 
-
-  archive(id) {
+  // Keep the coach in the database and mark it archived.
+  delete(id) {
     return this.coachModel.findByIdAndUpdate(
       id,
       { $set: { isArchived: true } },
