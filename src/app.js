@@ -11,7 +11,7 @@ const app = express();
 app.use(scopePerRequest(container));
 
 app.use(express.json());
-
+//auth
 app.use("/api/auth", authRoutes);
 // ici on va declaerer les routes pour chaque module 
 //exemple departure 
@@ -21,6 +21,10 @@ app.use("/api/stops", StopRoutes);
 app.get("/test", (req, res) => {
     return res.send({message: "testing routes "});
 })
+//lines : 
+import lineRoutes from "./modules/lines/routes/line.routes.js";
+app.use("/api/v1/lines", lineRoutes);
+
 
 app.use(errorHandler);
 

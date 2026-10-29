@@ -1,14 +1,14 @@
 import { z } from "zod";
 
 export const createLineSchema = z.object({
-  code:    z.string().min(4),
-  label:   z.string().min(4),
+  code:    z.string().min(1),
+  label:   z.string().min(1),
   stopIds: z.array(z.string()).min(2),
 });
 
 export const updateLineSchema = z.object({
-  code:    z.string().min(4).optional(),
-  label:   z.string().min(4).optional(),
+  code:    z.string().min(1).optional(),
+  label:   z.string().min(1).optional(),
   stopIds: z.array(z.string()).min(2).optional(),
 }).refine(data => Object.keys(data).length > 0, {
   message: "Body cannot be empty",
