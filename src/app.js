@@ -5,6 +5,7 @@ import errorHandler from './shared/middlewares/error.middleware.js';
 import {scopePerRequest} from 'awilix-express';
 import container from './bootsrap/container.js';
 import StopRoutes from './modules/stops/routes/stop.routes.js';
+import lineRoutes from './modules/lines/routes/line.routes.js';
 
 
 const app = express();
@@ -17,6 +18,7 @@ app.use("/api/auth", authRoutes);
 //exemple departure 
 app.use("/api/departures", DepartureRoutes);
 app.use("/api/stops", StopRoutes);
+app.use("/api/v1/lines", lineRoutes);
 
 app.get("/test", (req, res) => {
     return res.send({message: "testing routes "});
