@@ -1,34 +1,40 @@
 import { createContainer, asClass, asValue, InjectionMode } from "awilix";
-// departure
-import Departure from "../modules/departures/models/departure.model.js";
-import DepartureRepository from "../modules/departures/repositories/departure.repositorie.js";
-import DepartureService from "../modules/departures/services/departure.service.js";
-import DepartureController from "../modules/departures/controllers/departure.controller.js";
+import registerLines from "../modules/lines/line.container.js";
+import registerDepartures from '../modules/departures/departure.container.js';
+import registerBookings from '../modules/bookings/booking.container.js';
+
 // stops
 import Stop from "../modules/stops/models/stop.model.js";
 import StopRepository from "../modules/stops/repositories/stop.repository.js";
 import StopService from "../modules/stops/services/stop.service.js";
 import StopController from "../modules/stops/controllers/stop.controller.js";
+
 // Coach
 import Coach from "../modules/coachs/models/coach.model.js";
 import CoachRepository from "../modules/coachs/repositories/coach.repository.js";
 import CoachService from "../modules/coachs/services/coach.service.js";
 import CoachController from "../modules/coachs/controllers/coach.controller.js";
 
+
 const container = createContainer({
   injectionMode: InjectionMode.PROXY,
 });
+// Departures
+registerDepartures(container);
+//lines
+registerLines(container);
+registerBookings(container);
+
 
 container.register({
-    // Departure registrations
+  stopModel:       asValue(Stop),
+  stopRepository:  asClass(StopRepository).scoped(),
+  stopService:     asClass(StopService).scoped(),
+  stopController:  asClass(StopController).scoped(),
+  coachModel:      asValue(Coach),
 
-  departureModel: asValue(Departure),
+});
 
-  departureRepository: asClass(DepartureRepository).scoped(),
-
-  departureService: asClass(DepartureService).scoped(),
-
-  departureController: asClass(DepartureController).scoped(),
 
   // Stops registrations
   stopModel: asValue(Stop),
