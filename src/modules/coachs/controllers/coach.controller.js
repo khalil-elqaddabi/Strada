@@ -1,60 +1,80 @@
 export default class CoachController {
-  constructor(coachService) {
+  constructor({ coachService }) {
     this.coachService = coachService;
   }
 
   async create(req, res, next) {
     try {
-      const coach = await this.coachService.create(req.body);
+      const coach = await this.coachService.createCoach(
+        req.body
+      );
 
-      res.status(201).json({ data: coach });
+      return res.status(201).json({
+        success: true,
+        data: coach,
+      });
     } catch (error) {
-      next(error);
+      return next(error);
     }
   }
 
-  async findAll(req, res, next) {
+  async getAll(req, res, next) {
     try {
-      const coaches = await this.coachService.findAll();
+      const coaches = await this.coachService.getAllCoaches();
 
-      res.status(200).json({ data: coaches });
+      return res.status(200).json({
+        success: true,
+        data: coaches,
+      });
     } catch (error) {
-      next(error);
+      return next(error);
     }
   }
 
-  async findById(req, res, next) {
+  async getById(req, res, next) {
     try {
-      const coach = await this.coachService.findById(
+      const coach = await this.coachService.getCoachById(
         req.params.id
       );
 
-      res.status(200).json({ data: coach });
+      return res.status(200).json({
+        success: true,
+        data: coach,
+      });
     } catch (error) {
-      next(error);
+      return next(error);
     }
   }
 
   async update(req, res, next) {
     try {
-      const coach = await this.coachService.update(
+      const coach = await this.coachService.updateCoach(
         req.params.id,
         req.body
       );
 
-      res.status(200).json({ data: coach });
+      return res.status(200).json({
+        success: true,
+        data: coach,
+      });
     } catch (error) {
-      next(error);
+      return next(error);
     }
   }
 
-  async archive(req, res, next) {
+  async delete(req, res, next) {
     try {
-      await this.coachService.archive(req.params.id);
+      const coach = await this.coachService.deleteCoach(
+        req.params.id
+      );
 
-      res.status(204).send();
+      return res.status(200).json({
+        success: true,
+        message: "Autocar archivé avec succès.",
+        data: coach,
+      });
     } catch (error) {
-      next(error);
+      return next(error);
     }
   }
 }

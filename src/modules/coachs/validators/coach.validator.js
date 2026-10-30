@@ -8,9 +8,9 @@ export const createCoachSchema = z.object({
     .transform((value) => value.toUpperCase()),
 
   seatNumbers: z
-  .number()
-  .int("Seat count must be an integer.")
-  .positive("Seat count must be greater than zero."),
+    .number()
+    .int("Seat count must be an integer.")
+    .positive("Seat count must be greater than zero."),
 }).strict();
 
 export const updateCoachSchema = createCoachSchema
@@ -34,6 +34,7 @@ export function validateCoach(schema) {
     }
 
     req.body = result.data;
+
     next();
   };
 }

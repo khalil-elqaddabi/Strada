@@ -1,10 +1,5 @@
 import { Router } from "express";
 
-import Coach from "../models/coach.model.js";
-import CoachRepository from "../repositories/coach.repository.js";
-import CoachService from "../services/coach.service.js";
-import CoachController from "../controllers/coach.controller.js";
-
 import {
   createCoachSchema,
   updateCoachSchema,
@@ -13,35 +8,55 @@ import {
 
 const router = Router();
 
-const repository = new CoachRepository(Coach);
-const service = new CoachService(repository);
-const controller = new CoachController(service);
-
 router.post(
   "/",
   validateCoach(createCoachSchema),
-  controller.create.bind(controller)
+  (req, res, next) => {
+    return req.container
+      .resolve("coachController")
+      .create(req, res, next);
+  }
 );
 
-router.get(
-  "/",
-  controller.findAll.bind(controller)
-);
+router.get("/", (req, res, next) => {
+  return req.container
+    .resolve("coachController")
+    .getAll(req, res, next);
+});
 
-router.get(
-  "/:id",
-  controller.findById.bind(controller)
-);
+router.get("/:id", (req, res, next) => {
+  return req.container
+    .resolve("coachController")
+    .getById(req, res, next);
+});
 
 router.patch(
   "/:id",
   validateCoach(updateCoachSchema),
-  controller.update.bind(controller)
+  (req, res, next) => {
+    return req.container
+      .resolve("coachController")
+      .update(req, res, next);
+  }
 );
 
-router.delete(
-  "/:id",
-  controller.archive.bind(controller)
-);
+router.delete("/:id", (req, res, next) => {
+  return req.container
+    .resolve("coachController")
+    .delete(req, res, next);
+});
+
+router.use((error, req, res, next) => {
+  if (error.code === 11000) {
+    return res.status(409).json({
+      error: {
+        code: "RESOURCE_CONFLICT",
+        message: "Registration already exists.",
+      },
+    });
+  }
+
+  return next(error);
+});
 
 export default router;
