@@ -7,13 +7,19 @@ import Stop from "../modules/stops/models/stop.model.js";
 import StopRepository from "../modules/stops/repositories/stop.repository.js";
 import StopService from "../modules/stops/services/stop.service.js";
 import StopController from "../modules/stops/controllers/stop.controller.js";
+// bookings
+import registerBoarding from "../modules/bookings/boarding.container.js";
+
 const container = createContainer({
   injectionMode: InjectionMode.PROXY,
 });
 // Departures
 registerDepartures(container);
+// Boardinings
+registerBoarding(container);
 //lines
 registerLines(container);
+
 
 
 container.register({
