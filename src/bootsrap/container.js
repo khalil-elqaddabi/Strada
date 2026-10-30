@@ -18,6 +18,7 @@ registerDepartures(container);
 registerLines(container);
 registerBookings(container);
 
+
 container.register({
   stopModel:       asValue(Stop),
   stopRepository:  asClass(StopRepository).scoped(),
