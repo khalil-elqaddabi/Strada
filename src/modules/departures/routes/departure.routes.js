@@ -12,11 +12,15 @@ router.get("/:id", (req, res, next) => {
 });
 
 
-router.post("/", (req, res, next) => {
+router.post("/",(req, res, next) => {
+    req.container.resolve("departureValidator").validateCreate(req, res, next)
+} ,(req, res, next) => {
     req.container.resolve('departureController').create(req, res, next)
 });
 
-router.put("/:id", (req, res, next) => {
+router.put("/:id",(req, res, next) => {
+    req.container.resolve("departueValidator").validateUpdate(req, res, next)
+}, (req, res, next) => {
     req.container.resolve('departureController').update(req, res, next)
 });
 
