@@ -5,7 +5,7 @@ import User from "../models/user.model.js";
 const SALT_ROUNDS = 12;
 
 class AuthService {
-  async register({ firstName, lastName, email, password }) {
+  async register({ firstName, lastName, email, password, role }) {
     const exists = await User.findOne({ email });
     if (exists) {
       const err = new Error("Email already in use.");
@@ -13,10 +13,8 @@ class AuthService {
       err.status = 409;
       throw err;
     }
-
     const hash = await bcrypt.hash(password, SALT_ROUNDS);
-    const user  = await User.create({ firstName, lastName, email, password: hash });
-
+   const user = await User.create({ firstName, lastName, email, password: hash, role });
     return {
       id:        user._id,
       firstName: user.firstName,
