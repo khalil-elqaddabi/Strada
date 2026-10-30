@@ -1,6 +1,6 @@
 import Joi from "joi";
 
-export class DepartureValidator {
+export default class DepartureValidator {
 
   constructor() {
     this.createSchema = Joi.object({
