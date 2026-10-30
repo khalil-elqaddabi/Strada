@@ -7,7 +7,6 @@ const bookingSchema = new mongoose.Schema(
     departureId: { type: mongoose.Schema.Types.ObjectId, ref: "Departure", required: true },
     seatNumber:  { type: Number, required: true, min: 1 },
     status:      { type: String, enum: ["PENDING", "CONFIRMED", "CANCELLED"], default: "PENDING" },
-    dateValidation: { type: Date, default: null },
   },
   { timestamps: true }
 );
